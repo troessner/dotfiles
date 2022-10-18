@@ -1,0 +1,94 @@
+[user]
+  name = Timo Roessner
+  email = timo.roessner@googlemail.com
+[color]
+  # Enable colors in color-supporting terminals
+  ui = auto
+[alias]
+  # List available aliases
+  aliases = !git config --get-regexp alias | sed -re 's/alias\\.(\\S*)\\s(.*)$/\\1 = \\2/g'
+  # Command shortcuts
+  a = add
+  b = branch
+  ci = commit
+  co = checkout
+  st = status
+  rb = rebase
+  d = diff
+  l = log
+  pl = pull
+  ps = push
+  # Display tree-like log, because default log is a pain…
+  lgt = log --graph --date=relative --pretty=tformat:'%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%an %ad)%Creset'
+  # Useful when you have to update your last commit
+  # with staged files without editing the commit message.
+  cane = commit --amend --no-edit
+  # Ensure that force-pushing won't lose someone else's work (only mine).
+  push-with-lease = push --force-with-lease
+  # Edit last commit message
+  reword = commit --amend
+  # Undo last commit but keep changed files in stage
+  uncommit = reset --soft HEAD~1
+  # Unstage
+  unstage = reset --
+  # Remove file(s) from Git but not from disk
+  untrack = rm --cache --
+  # Diff cached
+  diffcached = diff --cached --
+[core]
+  editor = vi
+  # Don't consider trailing space change as a cause for merge conflicts
+  whitespace = -trailing-space
+[diff]
+  # Use better, descriptive initials (c, i, w) instead of a/b.
+  mnemonicPrefix = true
+  # Show renames/moves as such
+  renames = true
+  # When using --word-diff, assume --word-diff-regex=.
+  wordRegex = .
+  # Display submodule-related information (commit listings)
+  submodule = log
+[fetch]
+  # Auto-fetch submodule changes (sadly, won't auto-update)
+  recurseSubmodules = on-demand
+[grep]
+  break = true
+  heading = true
+  lineNumber = true
+  # Consider most regexes to be ERE
+  extendedRegexp = true
+[log]
+  # Use abbrev SHAs whenever possible/relevant instead of full 40 chars
+  abbrevCommit = true
+  # Automatically --follow when given a single path
+  follow = true
+  # Disable decorate for reflog
+  # (because there is no dedicated `reflog` section available)
+  decorate = false
+[merge]
+  # Disable fast-forward merges as default merge strategy.
+  # Force explicit call of `git merge --ff …`.
+  ff = false
+[pull]
+  # This is GREAT… when you know what you're doing and are careful
+  # not to pull --no-rebase over a local line containing a true merge.
+  # rebase = true
+  # This option, which does away with the one gotcha of
+  # auto-rebasing on pulls, is only available from 1.8.5 onwards.
+  # rebase = preserve
+  # WARNING! This option, which is the latest variation, is only
+  # available from 2.18 onwards.
+  rebase = merges
+[push]
+  # Default push should only push the current branch to its push target, regardless of its remote name
+  default = upstream
+  # When pushing, also push tags whose commit-ishs are now reachable upstream
+  followTags = true
+[status]
+  # Display submodule rev change summaries in status
+  submoduleSummary = true
+  # Recursively traverse untracked directories to display all contents
+  showUntrackedFiles = all
+[color "branch"]
+  # Blue on black is hard to read in git branch -vv: use cyan instead
+  upstream = cyan
