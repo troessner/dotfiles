@@ -72,13 +72,13 @@
 [pull]
   # This is GREAT… when you know what you're doing and are careful
   # not to pull --no-rebase over a local line containing a true merge.
-  # rebase = true
+  rebase = true
   # This option, which does away with the one gotcha of
   # auto-rebasing on pulls, is only available from 1.8.5 onwards.
   # rebase = preserve
   # WARNING! This option, which is the latest variation, is only
   # available from 2.18 onwards.
-  rebase = merges
+  # rebase = merges
 [push]
   # Default push should only push the current branch to its push target, regardless of its remote name
   default = upstream

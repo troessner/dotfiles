@@ -9,6 +9,9 @@ set history=500
 filetype plugin on
 filetype indent on
 
+" Show line numbers
+set number
+
 " Ignore case when searching
 set ignorecase
 
