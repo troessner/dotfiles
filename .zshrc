@@ -35,9 +35,9 @@ alias bxr="bundle exec rake"
 alias reset_db="bin/rails db:test:prepare"
 
 # git aliases
-alias main="git checkout master && git pull origin master"
+alias main="git checkout main && git pull origin main"
 alias master="git checkout master && git pull origin master"
-alias development="git checkout master && git pull origin master"
+alias development="git checkout development && git pull origin development"
 alias g='git'
 alias gs='git status'
 alias ga='git add'
@@ -56,6 +56,8 @@ alias gca='git commit --amend'
 alias gdc='git diff --cached'
 alias gcob='git checkout -b'
 alias gcim='git commit -m'
+alias gsh='git show'
+alias gshl='git show HEAD'
 
 ##########
 # PROMPT
