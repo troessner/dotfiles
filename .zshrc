@@ -58,6 +58,11 @@ alias gcob='git checkout -b'
 alias gcim='git commit -m'
 alias gsh='git show'
 alias gshl='git show HEAD'
+alias gunstage='git restore --staged'
+alias gst='git stash'
+alias gstp='git stash pop'
+alias glp='git log --patch'
+alias grslc='git reset --soft ^HEAD'
 
 ##########
 # PROMPT
@@ -71,7 +76,7 @@ COLOR_USR=$'\e[38;5;243m'
 COLOR_DIR=$'\e[38;5;197m'
 COLOR_GIT=$'\e[38;5;39m'
 setopt PROMPT_SUBST
-export PROMPT='${COLOR_USR}%n ${COLOR_DIR}%~ ${COLOR_GIT}$(parse_git_branch)${COLOR_DEF} $ '
+export PROMPT='${COLOR_USR}%n ${COLOR_DIR}%1d ${COLOR_GIT}$(parse_git_branch)${COLOR_DEF} $ '
 
 ##########
 # Load Git completion
