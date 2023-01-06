@@ -3,29 +3,27 @@ export EDITOR="vi"
 ##########
 # RBENV
 
+export PATH="$HOME/.rbenv/bin:$PATH"
 eval "$(rbenv init -)"
-if command -v pyenv 1>/dev/null 2>&1; then
-  eval "$(pyenv init -)"
-fi
+
+##########
+# PYENV
+
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
 
 ##########
 # NVM 
-
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+  [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
+  [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
 
 ##########
 # Python
 
 alias brew='env PATH="${PATH//$(pyenv root)\/shims:/}" brew'
 export AIRFLOW_HOME=~/Applications/airflow
-
-##########
-# APPS
-
-# Textmate
-path+=/Users/troessner/bin
  
 ##########
 # Aliases
@@ -46,13 +44,13 @@ alias gci='git commit'
 alias gd='git diff'
 alias gco='git checkout'
 alias gap='git add -p'
-alias gl='git log'
+alias gl='git log --oneline'
 alias gpl='git pull'
 alias grb='git rebase'
 alias grbm='git rebase master'
 alias gpsf='git push --force-with-lease'
 alias gps='git push'
-alias gca='git commit --amend'
+alias gca='git commit --amend --no-edit'
 alias gdc='git diff --cached'
 alias gcob='git checkout -b'
 alias gcim='git commit -m'
@@ -62,7 +60,8 @@ alias gunstage='git restore --staged'
 alias gst='git stash'
 alias gstp='git stash pop'
 alias glp='git log --patch'
-alias grslc='git reset --soft ^HEAD'
+alias grslc='git reset --soft HEAD~1'
+alias gsw='git switch'
 
 ##########
 # PROMPT
@@ -86,8 +85,7 @@ fpath=(~/.zsh $fpath)
 
 autoload -Uz compinit && compinit
 
-#########
-# Load other dot files
-#
+# Set PATH, MANPATH, etc., for Homebrew.
+eval "$(/opt/homebrew/bin/brew shellenv)"
 
-source ~/.setting_io
+source ~/.client_aliases
