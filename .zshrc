@@ -7,24 +7,12 @@ export PATH="$HOME/.rbenv/bin:$PATH"
 eval "$(rbenv init -)"
 
 ##########
-# PYENV
-
-export PYENV_ROOT="$HOME/.pyenv"
-command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
-
-##########
 # NVM 
 export NVM_DIR="$HOME/.nvm"
   [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
   [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
 
-##########
-# Python
 
-alias brew='env PATH="${PATH//$(pyenv root)\/shims:/}" brew'
-export AIRFLOW_HOME=~/Applications/airflow
- 
 ##########
 # Aliases
 
@@ -85,7 +73,21 @@ fpath=(~/.zsh $fpath)
 
 autoload -Uz compinit && compinit
 
-# Set PATH, MANPATH, etc., for Homebrew.
+#########
+# Python
+
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+
+alias python=python3
+alias pip=pip3
+
+#########
+# Homebrew
+
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
+#########
+# Other
 source ~/.client_aliases
