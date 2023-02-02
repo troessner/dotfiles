@@ -6,6 +6,11 @@ export EDITOR="vi"
 export PATH="$HOME/.rbenv/bin:$PATH"
 eval "$(rbenv init -)"
 
+#########
+# Homebrew
+
+eval "$(/opt/homebrew/bin/brew shellenv)"
+
 ##########
 # NVM 
 export NVM_DIR="$HOME/.nvm"
@@ -82,11 +87,6 @@ eval "$(pyenv init -)"
 
 alias python=python3
 alias pip=pip3
-
-#########
-# Homebrew
-
-eval "$(/opt/homebrew/bin/brew shellenv)"
 
 #########
 # Other
