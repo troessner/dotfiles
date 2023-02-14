@@ -1,5 +1,8 @@
 export EDITOR="vi"
 
+bindkey -e
+bindkey \^U backward-kill-line
+
 ##########
 # RBENV
 
@@ -55,6 +58,7 @@ alias gstp='git stash pop'
 alias glp='git log --patch'
 alias grslc='git reset --soft HEAD~1'
 alias gsw='git switch'
+alias amend_and_force_push='git commit --amend --no-edit && git push --force-with-lease'
 
 ##########
 # PROMPT
@@ -87,10 +91,12 @@ eval "$(pyenv init -)"
 
 alias python=python3
 alias pip=pip3
+alias black_check='black --check dags/ test/'
+alias black_fix='black dags/ test/'
+alias mypy_check='mypy --strict $(git ls-files dags/*.py test/*.py)'
+alias rt='pytest /test'
 
-#########
-# Other
-source ~/.client_aliases
+export PATH="/Users/troessner/.local/bin:$PATH"
 
 #########
 # GCloud
