@@ -1,5 +1,6 @@
 export EDITOR="vi"
 
+# Use ctrl+U to clear a line to the beginning
 bindkey -e
 bindkey \^U backward-kill-line
 
@@ -43,7 +44,7 @@ alias gap='git add -p'
 alias gl='git log --oneline'
 alias gpl='git pull'
 alias grb='git rebase'
-alias grbm='git rebase master'
+alias grbm='git rebase main'
 alias gpsf='git push --force-with-lease'
 alias gps='git push'
 alias gca='git commit --amend --no-edit'
@@ -59,6 +60,7 @@ alias glp='git log --patch'
 alias grslc='git reset --soft HEAD~1'
 alias gsw='git switch'
 alias amend_and_force_push='git commit --amend --no-edit && git push --force-with-lease'
+alias create_pr='gh pr create --fill'
 
 ##########
 # PROMPT
@@ -91,17 +93,16 @@ eval "$(pyenv init -)"
 
 alias python=python3
 alias pip=pip3
-alias black_check='black --check dags/ test/'
-alias black_fix='black dags/ test/'
-alias mypy_check='mypy --strict $(git ls-files dags/*.py test/*.py)'
-alias rt='pytest /test'
+alias black_check='poetry run black --check --diff dags/ test/'
+alias black_fix='poetry run black dags/ test/'
+alias mypy_check='poetry run mypy --strict --allow-untyped-decorators dags/ test/'
+alias activate_venv='source venv/bin/activate'
+alias rt='poetry run pytest'
 
 export PATH="/Users/troessner/.local/bin:$PATH"
 
-#########
-# GCloud
 # The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/troessner/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/troessner/Downloads/google-cloud-sdk/path.zsh.inc'; fi
+if [ -f '/Users/troessner/bin/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/troessner/bin/google-cloud-sdk/path.zsh.inc'; fi
 
 # The next line enables shell command completion for gcloud.
-if [ -f '/Users/troessner/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/troessner/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
+if [ -f '/Users/troessner/bin/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/troessner/bin/google-cloud-sdk/completion.zsh.inc'; fi
