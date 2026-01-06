@@ -4,35 +4,14 @@ export EDITOR="vi"
 bindkey -e
 bindkey \^U backward-kill-line
 
-##########
-# RBENV
-
-export PATH="$HOME/.rbenv/bin:$PATH"
-eval "$(rbenv init -)"
-
-#########
-# Homebrew
+#### Homebrew
 
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
-##########
-# NVM 
-export NVM_DIR="$HOME/.nvm"
-  [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
-  [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+#### Git Aliases
 
-
-##########
-# Aliases
-
-# Ruby / Rails
-alias bxr="bundle exec rake"
-alias reset_db="bin/rails db:test:prepare"
-
-# git aliases
 alias main="git checkout main && git pull origin main"
 alias master="git checkout master && git pull origin master"
-alias development="git checkout development && git pull origin development"
 alias g='git'
 alias gs='git status'
 alias ga='git add'
@@ -59,11 +38,39 @@ alias gstp='git stash pop'
 alias glp='git log --patch'
 alias grslc='git reset --soft HEAD~1'
 alias gsw='git switch'
-alias amend_and_force_push='git commit --amend --no-edit && git push --force-with-lease'
-alias create_pr='gh pr create --fill'
+alias create_pr='gh pr create -d --fill'
 
-##########
-# PROMPT
+
+prune_local_branches() {
+    git fetch --prune
+	git branch -vv | grep ': gone' | awk '{print $1}' | xargs git branch -D
+}
+
+
+gcbb() {
+  local branch raw msg
+  branch=$(git branch --show-current 2>/dev/null)
+
+  if [[ -z "$branch" ]]; then
+    echo "Not in a Git repo or unable to detect branch."
+    return 1
+  fi
+
+  # Replace underscores with spaces
+  raw="${branch//_/ }"
+
+  # Capitalize ONLY the first letter (zsh syntax)
+  msg="${raw[1]:u}${raw[2,-1]}."
+
+  echo "Committing with message: \"$msg\""
+  git commit -m "$msg"
+}
+
+alias flow='rb && ris && ruff && git add . && gcbb && create_pr'
+alias amend='rb && ris && ruff && git add . && git commit --amend --no-edit && git push --force-with-lease'
+
+
+#### PROMPT
 
 function parse_git_branch() {
   git branch 2> /dev/null | sed -n -e 's/^\* \(.*\)/[\1]/p'
@@ -76,16 +83,15 @@ COLOR_GIT=$'%{\e[38;5;39m%}'
 setopt PROMPT_SUBST
 export PROMPT='${COLOR_USR}%n ${COLOR_DIR}%1d ${COLOR_GIT}$(parse_git_branch)${COLOR_DEF} $ '
 
-##########
-# Load Git completion
+#### Load Git completion
+
 # See https://www.oliverspryn.com/blog/adding-git-completion-to-zsh
 zstyle ':completion:*:*:git:*' script ~/.zsh/git-completion.bash
 fpath=(~/.zsh $fpath)
 
 autoload -Uz compinit && compinit
 
-#########
-# Python
+#### System set up
 
 export PYENV_ROOT="$HOME/.pyenv"
 command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
@@ -93,16 +99,41 @@ eval "$(pyenv init -)"
 
 alias python=python3
 alias pip=pip3
-alias black_check='poetry run black --check --diff dags/ test/'
-alias black_fix='poetry run black dags/ test/'
-alias mypy_check='poetry run mypy --strict --allow-untyped-decorators dags/ test/'
-alias activate_venv='source venv/bin/activate'
-alias rt='poetry run pytest'
 
-export PATH="/Users/troessner/.local/bin:$PATH"
+source ~/.docker/init-zsh.sh || true # Added by Docker Desktop
 
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/troessner/bin/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/troessner/bin/google-cloud-sdk/path.zsh.inc'; fi
 
-# The next line enables shell command completion for gcloud.
-if [ -f '/Users/troessner/bin/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/troessner/bin/google-cloud-sdk/completion.zsh.inc'; fi
+#### TC
+
+export HEROKU_APP=backend-api-development
+
+alias rb='poetry run black backend_api/'
+alias ris='poetry run isort backend_api/'
+alias rmp='poetry run mypy backend_api --exclude backend_api/tests'
+alias rpy='poetry run pylint backend_api/'
+alias ruff='poetry run ruff check --fix backend_api/'
+alias autoflake='poetry run autoflake --remove-all-unused-imports --ignore-init-module-imports --in-place --recursive backend_api'
+alias tests='poetry run python manage.py test backend_api'
+alias run_ci='./scripts/run_ci.sh --no-test'
+alias run_ci_with_test='./scripts/run_ci.sh'
+alias runserver='poetry run python manage.py runserver 8001'
+alias mm='poetry run python manage.py makemigrations'
+alias rmi='poetry run python manage.py migrate'
+alias heroku_shell_dev='heroku run python manage.py shell --app backend-api-development'
+alias heroku_shell_prod='heroku run python manage.py shell --app turfcoach-backend-api-prod'
+alias heroku_logs_dev='heroku logs --tail  -n 1500 --app backend-api-development'
+alias heroku_logs_prod='heroku logs --tail  -n 1500 --app turfcoach-backend-api-prod'
+alias heroku_logs_scheduler_dev='heroku logs --tail -n 1500 --dyno scheduler --app backend-api-development'
+alias heroku_logs_scheduler_prod='heroku logs --tail -n 1500 --dyno scheduler --app turfcoach-backend-api-prod'
+
+
+##### Ukumi
+
+alias u_ci='uv tool run ruff check . && uv tool run ruff format . && uv tool run pyrefly check . && (cd activities && uv run pytest && cd ..)'
+
+##### Leximate
+
+alias l_run_ci='./scripts/run_ci.sh'
+alias l_flow='git add . && gcbb && create_pr'
+alias l_amend='git add . && git commit --amend --no-edit && git push --force-with-lease'
+

@@ -1,6 +1,6 @@
 [user]
-  name = Timo Roessner
-  email = timo.roessner@googlemail.com
+	name = Timo Roessner
+	email = timo.roessner@googlemail.com
 [color]
   # Enable colors in color-supporting terminals
   ui = auto
